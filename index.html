@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Pokedex</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>    
+    <body>
+
+        <div class="main">
+            <h2>Pokedex</h2>
+            <br>
+            <input id="quantidade" type="text" name="quantidade" placeholder="Insira a quantidade de pokémons...">
+            <div class="pokemon-boxes"></div><!--pokemon-boxes-->
+        </div><!--main-->
+        
+        <script>
+
+            var quantidade = document.getElementById('quantidade')
+            quantidade.addEventListener('keyup', ()=>{
+                pegaPokemons(quantidade.value)
+            })
+
+            function pegaPokemons(quantidade){
+                fetch('https://pokeapi.co/api/v2/pokemon?limit=' + quantidade)
+                .then(response => response.json())
+                .then(allpokemon => {
+
+                    var pokemons = [];
+
+                    allpokemon.results.map((value)=>{
+                        
+                        fetch(value.url)
+                        .then(response => response.json())
+                        .then(pokemonSingle => {
+                            pokemons.push({nome:value.name, imagem:pokemonSingle.sprites.front_default});
+
+                            if(pokemons.length == quantidade){
+                                //Finalizamos as requisições
+
+                                var pokemonBoxes = document.querySelector('.pokemon-boxes');
+                                pokemonBoxes.innerHTML = ''
+
+                                pokemons.map((value)=>{
+                                    pokemonBoxes.innerHTML += `
+                                    <div class="pokemon-box">
+                                        <img src="${value.imagem}" />
+                                        <p>${value.nome}</p>
+                                    </div><!--pokemon-box-->
+                                    `;
+                                    
+                                })//map em cada pokemon dps q acabou td
+                            }//quando pokelength == 10
+                        })//fetch pra cada pokemon
+                    })//para cada pokemon
+                })//fetch principal
+                }//function pega pokemons
+            pegaPokemons(3);
+        </script>
+    </body>
+</html>
