@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Koulen&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #393cca;
+    font-family: 'Baloo 2',cursive;
+}
+
+header{
+    background-color: #2C2E9A;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.386);
+}
+
+header img{
+    width: 100%;
+    max-width: 300px;
+}
+
+header input{
+    width: 200px;
+    height: 32px;
+    padding: 0 5px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 0.94rem;
+}
+
+main{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 10px;
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    background-color: white;
+}
+
+#loading{
+    margin-left: 3rem;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.pokemon{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pokemon a{
+    position: relative;
+    width: 60%;
+    padding-top: 60%;
+    border-radius: 50%;
+}
+
+.pokemon img{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-weight: bold;
+    text-transform: capitalize;
+    background-color: rgb(231, 231, 231);
+    border-radius: 50%;
+}
+
+.pokemon p{
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.pokemon ul{
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    text-transform: uppercase;
+    font-family: 'Koulen', cursive;
+    font-size: 1.4rem;
+}
