@@ -1,13 +1,12 @@
 import { fetchPokemon } from "./global.js"
 
 const main = document.querySelector('main');
+const pokeId = localStorage.getItem('pokemonId')
+const pokeInfo = getPokeInfo(pokeId)
 
-const capitalize = palavra => {
-   return palavra.charAt(0).toUpperCase() + palavra.slice(1);
-}
+renderPokemon(pokeInfo);
 
-//Pega as informações q desejo sobre o pokemón.
-const getPokeInfo = async id => {
+async function getPokeInfo(id){
    const pokemon = await fetchPokemon(id)
 
    const pokeInfo = {
@@ -23,38 +22,18 @@ const getPokeInfo = async id => {
    }
    return pokeInfo;
 }
-/* 
-<div id="dados">
-   <p id="name">4 - Charmander</p>
-   <div class="ul-container">
-      <p class="ul-title">Status do Pokémon:</p>
-      <ul id="stats">
-         <li><img src="../images/pokebola.png" alt=""><span id="stat">Hp</span> - <span id="stat-value">123</span></li>
-         <li><img src="../images/pokebola.png" alt=""><span id="stat">Hp</span> - <span id="stat-value">123</span></li>
-         <li><img src="../images/pokebola.png" alt=""><span id="stat">Hp</span> - <span id="stat-value">123</span></li>
-      </ul>
-   </div>
-   <div class="ul-container">
-      <p class="ul-title">Tipos:</p>
-      <ul id="types">
-         <li><img src="../images/pokebola.png" alt="">Fire</li>
-      </ul>
-   </div>
-</div>
-*/
 
-const renderPokemon = async pokeInfo => {
+async function renderPokemon(pokeInfo){
    const data = await pokeInfo; 
    const name = data.name;
    const id = data.id;
    const front = data.front;
    const back = data.back;
-   const stats = returnBattleStats(data.stats); //funcionando
+   const stats = returnBattleStats(data.stats);
    const types = data.types;
 
    document.title = name;
 
-   //parte das imagens
    const imagesContainer = document.createElement('div');
    imagesContainer.id = 'images';
 
@@ -62,6 +41,7 @@ const renderPokemon = async pokeInfo => {
    frontContainer.classList.add('img');
 
    const imgFront = document.createElement('img');
+   imgFront.id = 'front';
    imgFront.src = front;
    imgFront.alt = `${name} front`;
 
@@ -69,13 +49,13 @@ const renderPokemon = async pokeInfo => {
    backContainer.classList.add('img');
 
    const imgBack = document.createElement('img');
+   imgBack.id = 'back';
    imgBack.src = back;
    imgBack.alt = `${name} back`;
    
    frontContainer.appendChild(imgFront);
    backContainer.appendChild(imgBack);
    
-   //parte dos dados
    const dadosContainer = document.createElement('div');
    dadosContainer.id = 'dados';
    
@@ -83,21 +63,20 @@ const renderPokemon = async pokeInfo => {
    p.id = 'name';
    p.innerText = `${id} - ${name}`;
    dadosContainer.appendChild(p);
-   //até aq ta funcionando
 
    function returnUlContainer(title, array){
       const ulContainer = document.createElement('div');
       ulContainer.classList.add('ul-container');
-
+   
       const ulTitle = document.createElement('p');
       ulTitle.classList.add('ul-title');
       ulTitle.innerText = title;
-
+   
       const ul = document.createElement('ul');
-
+   
       const img = document.createElement('img');
       img.src = "../images/pokebola.png";
-
+   
       for(let element of array){
          const li = document.createElement('li');
          li.appendChild(img);
@@ -110,14 +89,13 @@ const renderPokemon = async pokeInfo => {
       }
       ulContainer.appendChild(ulTitle)
       ulContainer.appendChild(ul);
-
+   
       return ulContainer;
    }
 
    const typesContainer = returnUlContainer('Types: ', types)
    const battleStatsContainer = returnUlContainer('Stats: ', stats)
 
-   //só os appendChild mesmo
    imagesContainer.appendChild(frontContainer);
    imagesContainer.appendChild(backContainer);
    main.appendChild(imagesContainer);
@@ -140,7 +118,6 @@ function returnBattleStats(stats){
    return [hp, attack, defense, speed];
 }
 
-const pokeId = localStorage.getItem('pokemonId')
-const pokeInfo = getPokeInfo(pokeId)
-
-renderPokemon(pokeInfo);
+function capitalize(palavra){
+   return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+}

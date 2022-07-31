@@ -1,7 +1,50 @@
-import { getPokemonInfo } from './global.js'
+import { fetchPokemon } from './global.js'
 
-//Cria os elementos HTML e coloca dentro da <main>
-const renderPokemon = pokemon => {
+const main = document.querySelector('main');
+const loadingMsg = addLoadingMsg();
+
+let pokePromises = [];
+for(let i = 1; i <= 898; i++){
+   pokePromises.push(getPokemonInfo(i));
+}
+
+Promise.all(pokePromises)
+.then(pokePromises => {
+   let pokeObjects = [];
+
+   for(const pokemon of pokePromises){
+      pokeObjects.push(pokemon)
+   }
+
+   removeLoadingMsg(loadingMsg);
+   for(const pokemon of pokeObjects){
+      renderPokemon(pokemon);
+   }
+
+   const pokeImgs = document.querySelectorAll('.pokemon a');
+
+   pokeImgs.forEach(pokemon => {
+      pokemon.addEventListener('click', () => {
+         const pokeParent = pokemon.parentNode;
+         let pokeId = pokeParent.querySelector('#id').innerText;
+         localStorage.setItem('pokemonId', pokeId);
+      })
+   });
+   
+})
+
+async function getPokemonInfo(id){
+   const pokemon = await fetchPokemon(id);
+   const pokeInfo = {
+      'name': pokemon.name,
+      'id': pokemon.id,
+      'types' : pokemon.types.map(type => {return type.type.name}),
+      'img': pokemon.sprites['front_default']
+   }
+   return pokeInfo
+}
+
+function renderPokemon(pokemon){
    const name = pokemon.name;
    const id = pokemon.id;
    const img = pokemon.img;
@@ -39,7 +82,7 @@ const renderPokemon = pokemon => {
    main.appendChild(pokeDiv);
 }
 
-const addLoadingMsg = () => {
+function addLoadingMsg(){
    const p = document.createElement('p')
    p.id = 'loading';
    p.innerText = 'Loading...';
@@ -47,44 +90,6 @@ const addLoadingMsg = () => {
    return p;
 }
 
-const removeLoadingMsg = (p) => {
+function removeLoadingMsg(p){
    main.removeChild(p);
 }
-
-const main = document.querySelector('main');
-
-const loadingMsg = addLoadingMsg();
-
-//Pega todos os pokemón disponíveis e joga numa array de promises.
-let pokePromises = [];
-for(let i = 1; i <= 898; i++){
-   pokePromises.push(getPokemonInfo(i));
-}
-//Resolve todas as promises
-Promise.all(pokePromises)
-// e passa para uma array de objetos.
-.then(pokePromises => {
-   let pokeObjects = [];
-   for(const pokemon of pokePromises){
-      pokeObjects.push(pokemon)
-   }
-   return pokeObjects
-})
-//Renderiza esses objetos na tela.
-.then(pokeObjects => {
-   removeLoadingMsg(loadingMsg);
-   for(const pokemon of pokeObjects){
-      renderPokemon(pokemon);
-   }
-})
-.then(() => {
-   const pokeImgs = document.querySelectorAll('.pokemon a');
-   pokeImgs.forEach(pokemon => {
-      pokemon.addEventListener('click', event => {
-         // event.preventDefault();
-         const pokeParent = pokemon.parentNode;
-         let pokeId = pokeParent.querySelector('#id').innerText;
-         localStorage.setItem('pokemonId', pokeId);
-      })
-   });
-})
