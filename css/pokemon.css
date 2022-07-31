@@ -1,0 +1,116 @@
+@import url('./global.css');
+
+body{
+   font-family: var(--fonte-padrao);
+}
+
+main{
+   width: 100%;
+   max-width: 800px;
+   background-color: white;
+   margin: auto;
+   padding: 1rem;
+   display: flex;
+}
+
+#images{
+   width: 40%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 20px;
+   border-right: 1px solid black;
+}
+
+.img{
+   position: relative;
+   width: 70%;
+   padding-top: 70%;
+   border-radius: 50%;
+   background-color: rgb(200,200,200);
+   border: 1px solid rgb(180,180,180);
+}
+
+#images img{
+   position: absolute;
+   top: 0;
+   width: 100%;
+}
+
+#dados{
+   width: 60%;
+   padding: 1rem;
+}
+
+#name{
+   font-weight: 600;
+   font-size: 2rem;
+}
+
+
+.ul-container{
+   display: flex;
+   justify-content: space-between;
+   gap: 10px;
+   border-bottom: 1px solid black;
+}
+
+.ul-title{
+   font-weight: 500;
+   font-size: 1.5rem;
+}
+
+#dados ul{
+   width: 150px;
+   list-style: none;
+}
+
+#dados li{
+   font-size: 1.3rem;
+   display: flex;
+   align-items: center;
+}
+
+#dados li img{
+   height: 1em;
+   margin: 0 0.3rem;
+}
+
+@media screen and (max-width: 700px) {
+   main{
+      flex-direction: column;
+      align-items: center;
+   }
+
+   #images, #dados{
+      width: 100%;
+   }
+
+   #images{
+      flex-direction: row;
+      justify-content: center;
+      border: none;
+   }
+
+   .img{
+      width: 80%;
+      padding-top: 40%;
+      border: none;
+      border-radius: none;
+      background-color: transparent;
+   }
+
+   .img:first-child{
+      transform: translate(35%, 0);
+   }
+
+   .img:last-of-type{
+      transform: translate(-35%, 0);
+   }
+
+   .ul-container{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+   }
+}

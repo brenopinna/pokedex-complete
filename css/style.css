@@ -1,40 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Koulen&display=swap');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body{
-    background-color: #393cca;
-    font-family: 'Baloo 2',cursive;
-}
-
-header{
-    background-color: #2C2E9A;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    gap: 10px;
-    align-items: center;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.386);
-}
-
-header img{
-    width: 100%;
-    max-width: 300px;
-}
-
-header input{
-    width: 200px;
-    height: 32px;
-    padding: 0 5px;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    font-size: 0.94rem;
-}
+@import url('./global.css');
 
 main{
     display: grid;

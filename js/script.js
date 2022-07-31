@@ -1,21 +1,4 @@
-//Pega a response da API e retorna
-const fetchPokemon = async id => {
-   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-   const data = await response.json();
-   return data;
-}
-
-//Pega só os dados q desejo da response e retorna como um objeto
-const getPokemonInfo = async id => {
-   const pokemon = await fetchPokemon(id);
-   const pokeInfo = {
-      'name': pokemon.name,
-      'id': pokemon.id,
-      'types' : pokemon.types.map(type => {return type.type.name}),
-      'img': pokemon.sprites['front_default']
-   }
-   return pokeInfo
-}
+import { getPokemonInfo } from './global.js'
 
 //Cria os elementos HTML e coloca dentro da <main>
 const renderPokemon = pokemon => {
@@ -29,11 +12,16 @@ const renderPokemon = pokemon => {
    pokeImg.alt = name;
 
    const link = document.createElement('a');
-   link.href = './pokemon-individual/pokemon.html';
+   link.href = './pokemon-page/pokemon.html';
    link.appendChild(pokeImg);
 
+   const pokeId = document.createElement('span');
+   pokeId.id = 'id';
+   pokeId.innerText = id;
+
    const pokeName = document.createElement('p');
-   pokeName.innerText = `${id} - ${name}`;
+   pokeName.appendChild(pokeId);
+   pokeName.innerHTML += ` - ${name}`;
 
    const pokeTypes = document.createElement('ul');
    for(const type of types){
@@ -88,4 +76,15 @@ Promise.all(pokePromises)
    for(const pokemon of pokeObjects){
       renderPokemon(pokemon);
    }
-});
+})
+.then(() => {
+   const pokeImgs = document.querySelectorAll('.pokemon a');
+   pokeImgs.forEach(pokemon => {
+      pokemon.addEventListener('click', event => {
+         // event.preventDefault();
+         const pokeParent = pokemon.parentNode;
+         let pokeId = pokeParent.querySelector('#id').innerText;
+         localStorage.setItem('pokemonId', pokeId);
+      })
+   });
+})
