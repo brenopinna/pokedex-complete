@@ -57,6 +57,18 @@ main{
     gap: 10px;
     list-style: none;
     text-transform: uppercase;
-    font-family: 'Koulen', cursive;
+    font-family: var(--fonte-destaque);
     font-size: 1.4rem;
+}
+
+@media screen and (max-width:600px) {
+    main{
+        grid-template-columns: repeat(2, 1fr)
+    }
+}
+
+@media screen and (max-width:400px) {
+    main{
+        grid-template-columns: 1fr
+    }
 }
